@@ -11,7 +11,7 @@ const errorHandler = (request, response) => {
 
 // -- Error 500 -------------------------
 const serverHandler = (request, response) => {
-    response.writeHead(505, {'Content-Type' : 'text/html'});
+    response.writeHead(500, {'Content-Type' : 'text/html'});
     response.end('<h1> Server Error : Error 500 </h1>');
 };
 
