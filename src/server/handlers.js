@@ -61,3 +61,12 @@ const publicHandler = (request, response) => {
         });
     };
 };
+
+/ -- Export handlers -------------------
+module.exports = {
+    errorHandler,
+    serverHandler,
+    homeHandler,
+    authHandler,
+    publicHandler
+    }
