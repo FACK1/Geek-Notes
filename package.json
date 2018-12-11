@@ -15,5 +15,18 @@
   "bugs": {
     "url": "https://github.com/FACK1/Geek-Notes/issues"
   },
-  "homepage": "https://github.com/FACK1/Geek-Notes#readme"
+  "homepage": "https://github.com/FACK1/Geek-Notes#readme",
+  "devDependencies": {
+    "eslint": "^5.10.0",
+    "nodemon": "^1.18.8",
+    "supertest": "^3.3.0",
+    "tap-spec": "^5.0.0",
+    "tape": "^4.9.1"
+  },
+  "dependencies": {
+    "cookie": "^0.3.1",
+    "env2": "^2.2.2",
+    "jsonwebtoken": "^8.4.0",
+    "pg": "^7.7.1"
+  }
 }
