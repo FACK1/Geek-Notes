@@ -10,7 +10,7 @@ const errorHandler = (request, response) => {
 };
 
 // -- Error 500 -------------------------
-const serverHandler = (request, response) => {
+const serverErrorHandler = (request, response) => {
     response.writeHead(500, {'Content-Type' : 'text/html'});
     response.end('<h1> Server Error : Error 500 </h1>');
 };
@@ -20,7 +20,7 @@ const homeHandler = (request, response) => {
     const htmlPath = path.join(__dirname, '..', '..', 'public', 'index.html');
     fs.readFile(htmlPath, (error, htmlPath) => {
         if(error){
-            serverHandler();
+            serverErrorHandler(request, response);
         }
         response.writeHead(200, {'Content-Type' : 'text/html'});
         response.end(htmlPath);
@@ -32,7 +32,7 @@ const authHandler = (request, response) => {
     const htmlPath = path.join(__dirname, '..', '..', 'public', 'auth.html');
     fs.readFile(htmlPath, (error, htmlPath) => {
         if(error){
-            serverHandler();
+            serverErrorHandler(request, response);
         }
         response.writeHead(200, {'Content-Type' : 'text/html'});
         response.end(htmlPath);
@@ -46,15 +46,16 @@ const publicHandler = (request, response) => {
         html : 'text/html',
         css  : 'text/css',
         js   : 'application/js',
-        jpg  : 'image'
+        jpg  : 'image',
+        ico  : 'image/x-icon'
     };
     if(!contentTypeMapping[extention]){
-        errorHandler();
+        errorHandler(request, response);
     } else {
         const filePath = path.join(__dirname, '..', '..', 'public', request.url);
         fs.readFile(filePath, (error, file) => {
             if(error){
-                serverHandler();
+                errorHandler(request, response);
             }
             response.writeHead(200, {'Content-Type' : contentTypeMapping[extention]});
             response.end(file);
@@ -62,10 +63,10 @@ const publicHandler = (request, response) => {
     };
 };
 
-/ -- Export handlers -------------------
+// -- Export handlers -------------------
 module.exports = {
     errorHandler,
-    serverHandler,
+    serverErrorHandler,
     homeHandler,
     authHandler,
     publicHandler
