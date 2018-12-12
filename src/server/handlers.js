@@ -1,6 +1,9 @@
 // -- required --------------------------
 const path = require('path');
 const fs = require('fs');
+const queryString = require('querystring');
+const bcrypt = require('bcrypt');
+const setData = require('../queries/setData');
 
 
 // -- Error 404 -------------------------
@@ -63,6 +66,37 @@ const publicHandler = (request, response) => {
   }
 };
 
+// -- Register Handler --------------------
+const registerHandler = (request, response) => {
+  let body = '';
+  request.on('data', (data) => {
+    body += data.toString();
+  });
+  request.on('end', () => {
+    const { name, username, password } = queryString.parse(body);
+    bcrypt.genSalt(10, (err, salt) => {
+      if (err) {
+        serverErrorHandler(request, response);
+      }
+      bcrypt.hash(password, salt, (hashErr, hash) => {
+        if (hashErr) {
+          serverErrorHandler(request, response);
+        }
+        setData.setUser(name, username, hash, (error) => {
+          if (error) {
+            response.writeHead(500, { 'Content-Type': 'text/html' });
+            response.end('<h1>Registration Error</h1>');
+            console.log("ERROR", error);
+          } else {
+            response.writeHead(200, { 'Content-Type': 'text/html' });
+            response.end('<h1>Registered Successfully!');
+          }
+        });
+      });
+    });
+  });
+};
+
 // -- Export handlers -------------------
 module.exports = {
   errorHandler,
@@ -70,4 +104,5 @@ module.exports = {
   homeHandler,
   authHandler,
   publicHandler,
+  registerHandler,
 };
