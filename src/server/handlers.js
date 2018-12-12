@@ -4,6 +4,8 @@ const fs = require('fs');
 const queryString = require('querystring');
 const bcrypt = require('bcrypt');
 const setData = require('../queries/setData');
+const jwt = require('jsonwebtoken');
+require('env2')('config.env');
 
 
 // -- Error 404 -------------------------
@@ -86,10 +88,15 @@ const registerHandler = (request, response) => {
           if (error) {
             response.writeHead(500, { 'Content-Type': 'text/html' });
             response.end('<h1>Registration Error</h1>');
-            console.log("ERROR", error);
+            //console.log("ERROR", error);
           } else {
-            response.writeHead(200, { 'Content-Type': 'text/html' });
-            response.end('<h1>Registered Successfully!');
+            jwt.sign(username, process.env.SECRET, (signErr, token) => {
+              response.writeHead(302, {
+                'Set-Cookie':'username=' + token + '; Max-Age=9000;',
+                'Location':'/'
+            });
+              response.end('Redirecting...');
+            })
           }
         });
       });
