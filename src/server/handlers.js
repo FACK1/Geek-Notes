@@ -70,10 +70,10 @@ const publicHandler = (request, response) => {
 const registerHandler = (request, response) => {
   let body = '';
   request.on('data', (data) => {
-    body += data.toSrting();
+    body += data.toString();
   });
   request.on('end', () => {
-    const { name, uesrname, password } = queryString.parse(body);
+    const { name, username, password } = queryString.parse(body);
     bcrypt.genSalt(10, (err, salt) => {
       if (err) {
         serverErrorHandler(request, response);
@@ -82,10 +82,11 @@ const registerHandler = (request, response) => {
         if (hashErr) {
           serverErrorHandler(request, response);
         }
-        setData.setUser(name, uesrname, hash, (error) => {
+        setData.setUser(name, username, hash, (error) => {
           if (error) {
             response.writeHead(500, { 'Content-Type': 'text/html' });
             response.end('<h1>Registration Error</h1>');
+            console.log("ERROR", error);
           } else {
             response.writeHead(200, { 'Content-Type': 'text/html' });
             response.end('<h1>Registered Successfully!');
