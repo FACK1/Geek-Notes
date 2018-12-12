@@ -4,7 +4,9 @@
   "description": "Notes Web Application",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./src",
+    "lint-fix": "eslint --fix ./src"
   },
   "repository": {
     "type": "git",
@@ -18,6 +20,8 @@
   "homepage": "https://github.com/FACK1/Geek-Notes#readme",
   "devDependencies": {
     "eslint": "^5.10.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
     "nodemon": "^1.18.8",
     "supertest": "^3.3.0",
     "tap-spec": "^5.0.0",
