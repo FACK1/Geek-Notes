@@ -1,6 +1,4 @@
 //-- Import Modules
-const fs = require('fs')
-const path = require('path');
 const handlers = require('./handlers.js');
 
 // Create Router
