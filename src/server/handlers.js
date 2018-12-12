@@ -46,7 +46,8 @@ const publicHandler = (request, response) => {
         html : 'text/html',
         css  : 'text/css',
         js   : 'application/js',
-        jpg  : 'image'
+        jpg  : 'image',
+        ico  : 'image/x-icon'
     };
     if(!contentTypeMapping[extention]){
         errorHandler(request, response);
