@@ -1,20 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script> -->
+    <link rel="stylesheet" type="text/css" media="screen" href="./css/auth.css" />
+    <!-- <script src="main.js"></script> -->
 </head>
 <body>
+    <div id="container">
+        <header>
+            <h1>SIGN UP</h1>
+        </header>
         <form action="/register" method="POST">
-            <input name="name" type="text">
-            <input name="username" type="text">
-            <input name="password" type="password">
-            <input type="submit" value="Register">
+            <label>Name <br/>
+                <input name="name" type="text" placeholder="Enter your name">
+            </label><br/>
+            <label>User Name <br/>
+                <input name="username" type="text" placeholder="Enter your user name">
+            </label><br/>
+            <label>Password <br/>
+                <input name="password" type="password" placeholder="Enter your password">
+            </label><br/>
+            <label>Confirm Password <br/>
+                <input name="confirmPassword" type="password" placeholder="Enter confirm password">
+            </label><br/>
+            <label>
+                <input id="button" type="submit" value="Register">
+            </label><br/>
         </form>
+    </div>
 </body>
 
 </html>
