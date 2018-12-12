@@ -1,21 +1,17 @@
-//-- Import Modules
+// -- Import Modules
 const handlers = require('./handlers.js');
 
 // Create Router
-const router = (request, response)=> {
-
-// Home Endpoint
+const router = (request, response) => {
   if (request.url === '/') {
-    handlers.homeHandler(request,response)
+    // Home Endpoint
+    handlers.homeHandler(request, response);
+  } else if (request.url.split('.')[1]) {
+    // Public Side Endpoint
+    handlers.publicHandler(request, response);
+  } else {
+    // Error Endpoint
+    handlers.errorHandler(request, response);
   }
-// Public Side Endpoint
-  else if (request.url.split('.')[1]) {
-    handlers.publicHandler(request,response)
-  }
-// Error Endpoint
-  else {
-    handlers.errorHandler(request,response)
-  }
-
 };
-module.exports = router
+module.exports = router;
