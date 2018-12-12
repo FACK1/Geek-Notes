@@ -1,6 +1,8 @@
 // -- required --------------------------
 const path = require('path');
 const fs = require('fs');
+const setData = require('../queries/setData');
+const queryString = require('query-string');
 
 
 // -- Error 404 -------------------------
@@ -63,11 +65,32 @@ const publicHandler = (request, response) => {
     };
 };
 
+// -- Register Handler --------------------
+    const registerHandler = (request, response) => {
+        let body = "";
+        request.on("data", (data) => {
+            body += data.toSrting();
+        });
+        request.on("end", () => {
+            let {name, uesrname, password} = queryString.parse(body);
+            setData.setUser(name, uesrname, password, error => {
+                if(error){
+                    response.writeHead(500, {'Content-Type': 'text/html'});
+                    response.end('<h1>Registration Error</h1>');
+                } else {
+                    response.writeHead(200, {'Content-Type': 'text/html'});
+                    response.end('<h1>Registered Successfully!');
+                }
+            });
+        })
+    }
+    
 // -- Export handlers -------------------
 module.exports = {
     errorHandler,
     serverErrorHandler,
     homeHandler,
     authHandler,
-    publicHandler
+    publicHandler,
+    registerHandler
     }
