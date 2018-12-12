@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const queryString = require('querystring');
 const bcrypt = require('bcrypt');
-const setData = require('../queries/set');
+const setData = require('../queries/setData');
 
 
 // -- Error 404 -------------------------
