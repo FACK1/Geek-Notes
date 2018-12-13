@@ -10,9 +10,23 @@
 </head>
 <body>
     <div id="container">
-        <header>
-            <h1>SIGN UP</h1>
-        </header>
+      <div id="login">
+        <form action="/login" method="POST">
+            <label> User Name <br/>
+                <input name="username" type="text" placeholder="Enter your user name">
+            </label><br/>
+            <label>Password <br/>
+                <input name="password" type="password" placeholder="Enter your password">
+            </label><br/>
+            <label>
+            <input id="button" type="submit" value="Login">
+            </label><br/>
+        </form>
+      </div>
+
+
+      <div id="signup">
+            <h1 id="signup-header">SIGN UP</h1>
         <form action="/register" method="POST">
             <label>Name <br/>
                 <input name="name" type="text" placeholder="Enter your name">
@@ -30,6 +44,7 @@
                 <input id="button" type="submit" value="Register">
             </label><br/>
         </form>
+      </div>
     </div>
 </body>
 
