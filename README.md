@@ -2,12 +2,12 @@
 Notes Web Application
 
 ## About:
-   A website app that allow a user to add notes after regestration/login to the website, So must be authenticated.   
+   A web app that allow a user to add notes after registration/login to the website, So must be authenticated.   
 
 ## User journey:
    In our website you (user) can see his notes after success login.
 
-## Website Link: [Geek-Notes]()
+## Website Link: [Geek-Notes](https://geek-notes.herokuapp.com/)
 
 ## Site design :
 
