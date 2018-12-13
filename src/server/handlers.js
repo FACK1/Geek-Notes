@@ -4,12 +4,11 @@ const fs = require('fs');
 const queryString = require('querystring');
 const bcrypt = require('bcrypt');
 const cookie = require('cookie');
-const setData = require('../queries/setData');
-const getData = require('../queries/getData');
 const jwt = require('jsonwebtoken');
+const setData = require('../queries/setData');
 require('env2')('config.env');
 
-let { SECRET } = process.env;
+const { SECRET } = process.env;
 
 // -- Error 404 -------------------------
 const errorHandler = (request, response) => {
@@ -26,21 +25,21 @@ const serverErrorHandler = (request, response) => {
 const forbiddenError = (request, response) => {
   response.writeHead(403, { 'Content-Type': 'text/html' });
   response.end('<h1>Forbidden, You are not authenticated!</h1>');
-}
+};
 
 // -- Home Handler ----------------------
 const homeHandler = (request, response) => {
-  if((request.headers.cookie)){
-    let token = (cookie.parse(request.headers.cookie)).id;
-    jwt.verify(token, SECRET, (err, id) => {
-      if(err){
+  if ((request.headers.cookie)) {
+    const token = (cookie.parse(request.headers.cookie)).id;
+    jwt.verify(token, SECRET, (err, id) => { // eslint-disable-line no-unused-vars
+      if (err) {
         forbiddenError(request, response);
-      } else { //TODO: check if that the user is in the DB (if statement).
+      } else { // TODO: check if that the user is in the DB (if statement).
         const htmlPath = path.join(__dirname, '..', '..', 'public', 'index.html');
         fs.readFile(htmlPath, (error, file) => {
           if (error) {
             serverErrorHandler(request, response);
-          }else {
+          } else {
             response.writeHead(200, { 'Content-Type': 'text/html' });
             response.end(file);
           }
@@ -48,7 +47,7 @@ const homeHandler = (request, response) => {
       }
     });
   } else {
-    response.writeHead(302, {'Location': '/auth.html'});
+    response.writeHead(302, { Location: '/auth.html' });
     response.end('Not Authneticated, Redirecting to registration page!');
   }
 };
@@ -112,11 +111,11 @@ const registerHandler = (request, response) => {
           } else {
             jwt.sign(id, SECRET, (signErr, token) => {
               response.writeHead(302, {
-                'Set-Cookie':'id=' + token + '; Max-Age=9000;',
-                'Location':'/'
-            });
+                'Set-Cookie': `id=${token}; Max-Age=9000;`,
+                Location: '/',
+              });
               response.end('Redirecting...');
-            })
+            });
           }
         });
       });
@@ -132,5 +131,5 @@ module.exports = {
   authHandler,
   publicHandler,
   registerHandler,
-  forbiddenError
+  forbiddenError,
 };

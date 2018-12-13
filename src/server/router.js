@@ -12,10 +12,10 @@ const router = (request, response) => {
   } else if (request.url === '/register' && request.method === 'POST') {
     // Register Handler
     handlers.registerHandler(request, response);
-  }else if (request.url === '/login' && request.method === 'POST') {
+  } else if (request.url === '/login' && request.method === 'POST') {
     // Login Handler
     handlers.loginHandler(request, response);
-  }else {
+  } else {
     // Error Endpoint
     handlers.errorHandler(request, response);
   }
