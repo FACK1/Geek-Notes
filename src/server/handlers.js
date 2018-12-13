@@ -112,15 +112,9 @@ const registerHandler = (request, response) => {
           } else {
             jwt.sign(id, SECRET, (signErr, token) => {
               response.writeHead(302, {
-<<<<<<< HEAD
                 'Set-Cookie':`id=${token}; Max-Age=9000;`,
                 'Location':'/'
             });
-=======
-                'Set-Cookie': `id=${token}; Max-Age=9000;`,
-                Location: '/',
-              });
->>>>>>> master
               response.end('Redirecting...');
             });
           }
