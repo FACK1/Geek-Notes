@@ -21,7 +21,7 @@ body {
     padding-top: 50px;
 }
 
-header {
+#signup-header {
     margin: 10px;
     font-size: 5vh;
 }
@@ -74,13 +74,13 @@ input {
         margin: 10px;
         font-size: 34px;
     }
-    
+
     label {
         margin: 5px;
         font-size: 20px;
         font-weight: bolder;
     }
-    
+
     input {
         width: 50%;
         height: 30px;
