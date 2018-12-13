@@ -113,7 +113,7 @@ const registerHandler = (request, response) => {
           } else {
             jwt.sign(id, SECRET, (signErr, token) => {
               response.writeHead(302, {
-                'Set-Cookie':'id=' + token + '; Max-Age=9000;',
+                'Set-Cookie':`id=${token}; Max-Age=9000;`,
                 'Location':'/'
             });
               response.end('Redirecting...');
@@ -134,20 +134,23 @@ const loginHandler =  (request, response) => {
   });
   request.on('end', () => {
     const {username, password} = queryString.parse(body);
-    getData.getUserPasswordByUsername(username, (err, db_password) => {
+    getData.getUserByUsername(username, (err, user) => {
       if(err){
         forbiddenError(request, response);
       }else {
-        bcrypt.compare(password, db_password, (cryptErr, res) => {
+        bcrypt.compare(password, user.password, (cryptErr, res) => {
           if(cryptErr){
             serverErrorHandler(request, response);
-          } else {
-            jwt.sign(id, SECRET, (signErr, token) => {
+          } else if(res){
+            jwt.sign(res.id, SECRET, (signErr, token) => {
               response.writeHead(302, {
-                'Set-Cookie':'id=' + token + '; Max-Age=9000;',
+                'Set-Cookie':`id=${token}; Max-Age=9000;`,
                 'Location':'/'
             });
+            response.end();
           }
+      } else {
+        forbiddenError(request, response);
       });
       }
     })
