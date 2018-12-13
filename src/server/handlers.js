@@ -5,6 +5,7 @@ const queryString = require('querystring');
 const bcrypt = require('bcrypt');
 const cookie = require('cookie');
 const jwt = require('jsonwebtoken');
+const getData = require('../queries/getData');
 const setData = require('../queries/setData');
 require('env2')('config.env');
 
@@ -21,6 +22,7 @@ const serverErrorHandler = (request, response) => {
   response.writeHead(500, { 'Content-Type': 'text/html' });
   response.end('<h1> Server Error : Error 500 </h1>');
 };
+// -- Error 403 -------------------------
 
 const forbiddenError = (request, response) => {
   response.writeHead(403, { 'Content-Type': 'text/html' });
@@ -110,6 +112,7 @@ const registerHandler = (request, response) => {
             response.end('<h1>Registration Error</h1>');
           } else {
             jwt.sign(id, SECRET, (signErr, token) => {
+              console.log(token);
               response.writeHead(302, {
                 'Set-Cookie': `id=${token}; Max-Age=9000;`,
                 Location: '/',
@@ -123,6 +126,41 @@ const registerHandler = (request, response) => {
   });
 };
 
+// -- LogIn Handler --------------------
+
+const loginHandler = (request, response) => {
+  let body = '';
+  request.on('data', (data) => {
+    body += data.toString();
+  });
+  request.on('end', () => {
+    const { username, password } = queryString.parse(body);
+    getData.getUserByUsername(username, (err, user) => {
+      if (err) {
+        forbiddenError(request, response);
+      } else {
+        bcrypt.compare(password, user.password, (cryptErr, res) => {
+          if (cryptErr) {
+            serverErrorHandler(request, response);
+          } else if (res) {
+            console.log(user.id.toString());
+            jwt.sign({id: user.id}, SECRET, (signErr, token) => {
+              console.log("RESULT NOT TRUE ", signErr);
+              response.writeHead(302, {
+                'Set-Cookie': `id=${token}; Max-Age=9000;`,
+                Location: '/',
+              });
+              response.end();
+            });
+          } else {
+            forbiddenError(request, response);
+          }
+        });
+      }
+    });
+  });
+};
+
 // -- Export handlers -------------------
 module.exports = {
   errorHandler,
@@ -132,4 +170,5 @@ module.exports = {
   publicHandler,
   registerHandler,
   forbiddenError,
+  loginHandler,
 };
