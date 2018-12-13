@@ -22,6 +22,7 @@ const serverErrorHandler = (request, response) => {
   response.writeHead(500, { 'Content-Type': 'text/html' });
   response.end('<h1> Server Error : Error 500 </h1>');
 };
+// -- Error 403 -------------------------
 
 const forbiddenError = (request, response) => {
   response.writeHead(403, { 'Content-Type': 'text/html' });
@@ -123,6 +124,35 @@ const registerHandler = (request, response) => {
     });
   });
 };
+
+// -- LogIn Handler --------------------
+
+const loginHandler =  (request, response) => {
+  let body = '';
+  request.on('data', (data) => {
+    body += data.toString();
+  });
+  request.on('end', () => {
+    const {username, password} = queryString.parse(body);
+    getData.getUserPasswordByUsername(username, (err, db_password) => {
+      if(err){
+        forbiddenError(request, response);
+      }else {
+        bcrypt.compare(password, db_password, (cryptErr, res) => {
+          if(cryptErr){
+            serverErrorHandler(request, response);
+          } else {
+            jwt.sign(id, SECRET, (signErr, token) => {
+              response.writeHead(302, {
+                'Set-Cookie':'id=' + token + '; Max-Age=9000;',
+                'Location':'/'
+            });
+          }
+      });
+      }
+    })
+  })
+}
 
 // -- Export handlers -------------------
 module.exports = {
